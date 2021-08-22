@@ -35,9 +35,10 @@ namespace Infraestructure
 
             return services;
         }
-        public static void MigrateDatebase(MajorContext context)
+        public static void MigrateDatebase(MajorContext context, bool autoMigrate = false)
         {
-            if (!UseInMemory)
+            
+            if (!UseInMemory && autoMigrate)
                 context.Database.Migrate();
         }
     }
