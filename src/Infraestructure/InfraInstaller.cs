@@ -8,11 +8,13 @@ namespace Infraestructure
 {
     public static class InfraInstaller
     {
+        private static bool UseInMemory { get; set; } = false;
+        
         public static IServiceCollection InstallInfraestructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var useInMemory = configuration.GetValue<bool>("UseInMemory");
+            UseInMemory = configuration.GetValue<bool>("UseInMemory");
 
-            if (useInMemory)
+            if (UseInMemory)
             {
                 services.AddDbContext<MajorContext>(conf =>
                 {
@@ -33,6 +35,10 @@ namespace Infraestructure
 
             return services;
         }
-
+        public static void MigrateDatebase(MajorContext context)
+        {
+            if (!UseInMemory)
+                context.Database.Migrate();
+        }
     }
 }

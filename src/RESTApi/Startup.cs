@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infraestructure;
+using Infraestructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,7 +39,7 @@ namespace RESTApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MajorContext context,ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -57,6 +58,11 @@ namespace RESTApi
             {
                 endpoints.MapControllers();
             });
+            
+            //AutoMigrate Database
+            logger.LogInformation("Migrating Database");
+            InfraInstaller.MigrateDatebase(context);
+
         }
     }
 }
