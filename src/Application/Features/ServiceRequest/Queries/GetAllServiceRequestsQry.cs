@@ -31,10 +31,14 @@ namespace Application.Features.ServiceRequest.Queries
 
         public async Task<IReadOnlyList<ServiceRequestDTO>> Handle(GetAllServiceRequestsQry request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Get All ServiceRequest received");
+
             var entites = await _context.ServiceRequests
                 .AsNoTracking()
                 .ToListAsync();
-
+            
+            _logger.LogInformation("Returning ServiceRequests");
+            
             return entites.Adapt<IReadOnlyList<ServiceRequestDTO>>();
         }
 

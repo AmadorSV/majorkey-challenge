@@ -37,9 +37,13 @@ namespace Application.Features.ServiceRequest.Queries
 
         public async Task<ServiceRequestDTO> Handle(GetServiceRequestQry request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Get ServiceRequest received");
+
             var entity = await _context.ServiceRequests
                 .AsNoTracking()
                 .FirstOrDefaultAsync(o => o.Id.Equals(request.Id));
+            
+            _logger.LogInformation("Returning ServiceRequest");
 
             return entity.Adapt<ServiceRequestDTO>();
         }

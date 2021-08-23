@@ -63,6 +63,8 @@ namespace Application.Features.ServiceRequest.Commands
         {
             try
             {
+                _logger.LogInformation("Update ServiceRequest received");
+                
                 var entity = await _context.ServiceRequests.FindAsync(request.Id);
 
                 if (entity == null) 
@@ -71,6 +73,8 @@ namespace Application.Features.ServiceRequest.Commands
                 request.Adapt(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
+                
+                _logger.LogInformation("Updated ServiceRequest");
 
                 return new Unit();
             }
@@ -79,9 +83,7 @@ namespace Application.Features.ServiceRequest.Commands
                 _logger.LogError(ex, $"Failed updating service request");
                 throw;
             }
-            
         }
-
     }
 
     #endregion Hanlder

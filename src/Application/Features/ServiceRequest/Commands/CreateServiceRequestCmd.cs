@@ -60,7 +60,7 @@ namespace Application.Features.ServiceRequest.Commands
         {
             try
             {
-                _logger.LogInformation("Adding ServiceRequest");
+                _logger.LogInformation("Add ServiceRequest received");
                 
                 var entity = request.Adapt<Domain.Model.ServiceRequest>();
 

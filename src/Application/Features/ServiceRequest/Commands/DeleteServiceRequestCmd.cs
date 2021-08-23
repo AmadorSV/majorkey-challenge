@@ -27,12 +27,12 @@ namespace Application.Features.ServiceRequest.Commands
     #endregion
 
     #region Handler
-    internal class DeletePermissionCmdHandler : IRequestHandler<DeleteServiceRequestCmd, Unit>
+    internal class DeleteServiceRequestCmdHandler : IRequestHandler<DeleteServiceRequestCmd, Unit>
     {
         private readonly IAppContext _context;
-        private readonly ILogger<DeletePermissionCmdHandler> _logger;
+        private readonly ILogger<DeleteServiceRequestCmdHandler> _logger;
 
-        public DeletePermissionCmdHandler(IAppContext context, ILogger<DeletePermissionCmdHandler> logger)
+        public DeleteServiceRequestCmdHandler(IAppContext context, ILogger<DeleteServiceRequestCmdHandler> logger)
         {
             _context = context;
             _logger = logger;
@@ -42,6 +42,8 @@ namespace Application.Features.ServiceRequest.Commands
         {
             try
             {
+                _logger.LogInformation("Delete service request received");
+                
                 var entity = await _context.ServiceRequests.FindAsync(request.Id);
 
                 if (entity == null)
@@ -52,12 +54,13 @@ namespace Application.Features.ServiceRequest.Commands
                 _context.ServiceRequests.Remove(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("Service Request deleted from database");
 
                 return new Unit();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Failed deleting permission");
+                _logger.LogError(ex, $"Failed deleting Service Request");
                 throw;
             }
 
