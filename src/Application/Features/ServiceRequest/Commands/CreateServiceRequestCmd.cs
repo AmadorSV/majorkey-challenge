@@ -12,13 +12,13 @@ using Domain.Enum;
 namespace Application.Features.ServiceRequest.Commands
 {
     #region Request
-    public record CreateServiceRequestCmd : IRequest<Guid>
+    public class CreateServiceRequestCmd : IRequest<Guid>
     {
         public string BuildingCode { get; set; }
         public string Description { get; set; }
         public CurrentStatus CurrentStatus { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 
     #endregion
@@ -30,13 +30,22 @@ namespace Application.Features.ServiceRequest.Commands
         public CreateServiceRequestCmdValidator()
         {
             RuleFor(x => x.Description)
-                .MaximumLength(200);
+                .MaximumLength(200)
+                .NotEmpty();
 
             RuleFor(x => x.BuildingCode)
-                .MaximumLength(100);
+                .MaximumLength(100)
+                .NotEmpty();
 
             RuleFor(x => x.CreatedBy)
+                .MaximumLength(100)
                 .NotEmpty();
+            
+            RuleFor(x => x.CreatedDate)
+                .NotEmpty();
+
+            RuleFor(x => x.CurrentStatus)
+                .IsInEnum();
 
         }
 

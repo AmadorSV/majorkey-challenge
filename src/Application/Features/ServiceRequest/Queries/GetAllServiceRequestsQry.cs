@@ -33,13 +33,13 @@ namespace Application.Features.ServiceRequest.Queries
         {
             _logger.LogInformation("Get All ServiceRequest received");
 
-            var entites = await _context.ServiceRequests
+            var entities = await _context.ServiceRequests
                 .AsNoTracking()
                 .ToListAsync();
             
             _logger.LogInformation("Returning ServiceRequests");
             
-            return entites.Adapt<IReadOnlyList<ServiceRequestDTO>>();
+            return entities.Count==0? null: entities.Adapt<IReadOnlyList<ServiceRequestDTO>>();
         }
 
     }

@@ -35,12 +35,18 @@ namespace Application.Features.ServiceRequest.Commands
         public UpdateServiceRequestCmdValidator()
         {
             RuleFor(x => x.Description)
-                .MaximumLength(200);
+                .MaximumLength(200)
+                .NotEmpty();
 
             RuleFor(x => x.BuildingCode)
-                .MaximumLength(100);
+                .MaximumLength(100)
+                .NotEmpty();
+
+            RuleFor(x => x.CurrentStatus)
+                .IsInEnum();
 
             RuleFor(x => x.ModifiedBy)
+                .MaximumLength(100)
                 .NotEmpty();
         }
     }
@@ -71,6 +77,7 @@ namespace Application.Features.ServiceRequest.Commands
                     throw new NotFoundException("Service request to update not found");
 
                 request.Adapt(entity);
+                entity.ModifiedDate = DateTime.Now;
 
                 await _context.SaveChangesAsync(cancellationToken);
                 

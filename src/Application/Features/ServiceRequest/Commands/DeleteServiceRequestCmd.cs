@@ -16,9 +16,9 @@ namespace Application.Features.ServiceRequest.Commands
     #region Request
     public record DeleteServiceRequestCmd : IRequest<Unit>
     {
-        public int Id { get; init; }
+        public Guid Id { get; init; }
 
-        public DeleteServiceRequestCmd(int id)
+        public DeleteServiceRequestCmd(Guid id)
         {
             Id = id;
         }

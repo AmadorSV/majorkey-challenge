@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Exception;
 using Application.Common.Interface;
 using Domain.DTO;
 
@@ -42,6 +43,9 @@ namespace Application.Features.ServiceRequest.Queries
             var entity = await _context.ServiceRequests
                 .AsNoTracking()
                 .FirstOrDefaultAsync(o => o.Id.Equals(request.Id));
+
+            if (entity == null)
+                throw new NotFoundException("ServiceRequest not found");
             
             _logger.LogInformation("Returning ServiceRequest");
 

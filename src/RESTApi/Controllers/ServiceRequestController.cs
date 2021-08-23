@@ -21,7 +21,7 @@ namespace RESTApi.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPermissions()
+        public async Task<IActionResult> GetAllServiceRequests()
         {
             var result = await _mediator.Send(new GetAllServiceRequestsQry());
 
@@ -29,25 +29,30 @@ namespace RESTApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPermissions(Guid id)
+        public async Task<IActionResult> GetServiceRequests(Guid id)
         {
-            var result = await _mediator.Send(new GetServiceRequestQry(id));
+            try
+            {
+                var result = await _mediator.Send(new GetServiceRequestQry(id));
+                return Ok(result);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
 
-            return Ok(result);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddPermission([FromBody] CreateServiceRequestCmd request)
+        public async Task<IActionResult> AddServiceRequest([FromBody] CreateServiceRequestCmd request)
         {
             var result = await _mediator.Send(request);
-
-            Uri createdUri = new($"{this.HttpContext.GetEndpoint()}/{result}");
-            return Created(createdUri,result);
+            return Created("null",result);
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePermission([FromBody] UpdateServiceRequestCmd request)
+        public async Task<IActionResult> UpdateServiceRequest([FromBody] UpdateServiceRequestCmd request)
         {
             try
             {
@@ -63,7 +68,7 @@ namespace RESTApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePermission([FromRoute] int id)
+        public async Task<IActionResult> DeleteServiceRequest([FromRoute] Guid id)
         {
             try
             {
