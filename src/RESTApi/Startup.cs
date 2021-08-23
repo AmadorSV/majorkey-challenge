@@ -1,3 +1,5 @@
+using Application;
+using FluentValidation.AspNetCore;
 using Infraestructure;
 using Infraestructure.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using RESTApi.Filters;
 
 namespace RESTApi
 {
@@ -23,13 +26,18 @@ namespace RESTApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers(x =>
+            {
+                x.Filters.Add<ValidationFilter>();
+            }).AddFluentValidation();
+            
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "RESTApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Major/Cohesion RESTApi Challenge", Version = "v1" });
             });
-
+    
             services.InstallInfraestructure(Configuration);
+            services.InstallApplication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

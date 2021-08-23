@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.Common.Interface;
 using Infraestructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +33,8 @@ namespace Infraestructure
                     conf.UseNpgsql(connStrng);
                 });
             }
+            
+            services.AddScoped<IAppContext>(provider => provider.GetService<MajorContext>());
 
             return services;
         }

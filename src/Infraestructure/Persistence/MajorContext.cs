@@ -1,10 +1,11 @@
-﻿using Domain.Model;
+﻿using Application.Common.Interface;
+using Domain.Model;
 using Infraestructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Persistence
 {
-    public class MajorContext : DbContext
+    public class MajorContext : DbContext, IAppContext
     {
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
         

@@ -18,7 +18,14 @@ namespace Infraestructure.Persistence.Configurations
                 conf.Property(o => o.Description)
                     .HasMaxLength(200)
                     .IsRequired();
+                
+                conf.Property(o => o.CreatedBy)
+                    .HasMaxLength(100)
+                    .IsRequired();
 
+                conf.Property(o => o.ModifiedBy)
+                    .HasMaxLength(100)
+                    .IsRequired(false);
             });
         }
     }
