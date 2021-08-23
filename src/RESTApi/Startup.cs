@@ -1,3 +1,4 @@
+using Application;
 using Infraestructure;
 using Infraestructure.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +31,7 @@ namespace RESTApi
             });
 
             services.InstallInfraestructure(Configuration);
+            services.InstallApplication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
