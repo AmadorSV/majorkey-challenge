@@ -51,18 +51,19 @@ namespace RESTApi.Controllers
             return Created("null",result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateServiceRequest([FromBody] UpdateServiceRequestCmd request)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateServiceRequest(Guid id, [FromBody] UpdateServiceRequestCmd request)
         {
             try
             {
+                request.Id = id;
                 var result = await _mediator.Send(request);
 
                 return Ok(result);
             }
             catch (NotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
         }
@@ -74,11 +75,11 @@ namespace RESTApi.Controllers
             {
                 var result = await _mediator.Send(new DeleteServiceRequestCmd(id));
 
-                return Ok(result);
+                return Created("","");
             }
             catch (NotFoundException ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
         }

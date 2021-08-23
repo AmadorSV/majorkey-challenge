@@ -18,7 +18,7 @@ namespace Application.Features.ServiceRequest.Commands
     #region Request
     public record UpdateServiceRequestCmd : IRequest<Unit>
     {
-        public Guid Id { get; init; }
+        public Guid? Id { get; set; }
         public string BuildingCode { get; init; }
         public string Description { get; init; }
         public CurrentStatus CurrentStatus { get; init; }
@@ -34,6 +34,7 @@ namespace Application.Features.ServiceRequest.Commands
 
         public UpdateServiceRequestCmdValidator()
         {
+           
             RuleFor(x => x.Description)
                 .MaximumLength(200)
                 .NotEmpty();
